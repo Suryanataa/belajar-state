@@ -2,7 +2,7 @@
 	"name": "belajar-state",
 	"private": true,
 	"version": "0.0.0",
-	"homepage": "https://suryanataa.github.io/belajar-useState-Reactjs/",
+	"homepage": "https://suryanataa.github.io/belajar-useState-Reactjs",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",

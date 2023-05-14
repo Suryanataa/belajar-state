@@ -1,5 +1,6 @@
 import Button from "../Button/Button";
 import { useState } from "react";
+import Cart from "../Cart/Cart";
 
 const products = [
 	{
@@ -9,7 +10,7 @@ const products = [
 	},
 	{
 		id: 2,
-		name: "Minuman Berkah",
+		name: "Snack Berkah",
 		price: 35000,
 	},
 	{
@@ -23,7 +24,7 @@ const Products = () => {
 	const [cart, setCart] = useState([]);
 
 	const CartPlus = (id) => {
-		if (cart.find((item) => item.id === id)) {
+		if (cart.find((item) => item.id === id)?.qty !== undefined) {
 			setCart(cart.map((item) => (item.id === id ? { ...item, qty: item.qty + 1 } : item)));
 		} else {
 			setCart([...cart, { id, qty: 1 }]);
@@ -33,6 +34,36 @@ const Products = () => {
 		if (cart.find((item) => item.id === id)) {
 			setCart(cart.map((item) => (item.id === id ? { ...item, qty: item.qty - 1 } : item)));
 		}
+	};
+
+	let itemName = [];
+	const cartItems = (id) => {
+		// const item = products.find((item) => item.id === id);
+		products.forEach((item) => {
+			if (item.id === id) {
+				itemName.push(item.name);
+				return itemName;
+			}
+		});
+		// itemName.push(item.name);
+		return itemName.join(", ");
+	};
+
+	const Sum = () => {
+		const sum = cart.reduce((accumulator, object) => {
+			return accumulator + object.qty;
+		}, 0);
+		return sum;
+	};
+
+	let total = 0;
+	const Total = (id) => {
+		products.map((item) => {
+			if (item.id === id) {
+				total += item.price * cart.find((item) => item.id === id)?.qty;
+			}
+		});
+		return total.toLocaleString("ID");
 	};
 	return (
 		<>
@@ -67,6 +98,7 @@ const Products = () => {
 								</div>
 							)}
 						</div>
+						{cart.find((item) => item.id === product.id)?.qty === undefined || cart.find((item) => item.id === product.id)?.qty === 0 ? "" : <Cart item={cartItems(product.id)} sumItem={Sum()} price={Total(product.id)} />}
 					</div>
 				))}
 			</div>
